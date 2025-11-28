@@ -406,25 +406,36 @@
         </section>
     </main>
 
-    <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbw-P4KLy38w4dMyU1rDj9heAvrMa1c3MOqZZEvhXzqSJ5y0ZJybULPsnVXyLEEWMcghtA/exec";
-    
-        async function actualizarIndicador() {
-            try {
-                const res = await fetch(API_URL + '?action=get');
-                const data = await res.json();
-                document.getElementById('cart-count').textContent = data.count;
-            } catch (error) {
-                console.error(error);
-                document.getElementById('cart-count').textContent = '0';
-            }
-        }
+<script>
+    // URL de tu Web App de Apps Script
+    const API_URL = "https://script.google.com/macros/s/AKfycbwD9kAZM2-TvNrNu2p4BAYl2q73kWW0uU-T1Dh1Ox3EHk12V_Uhp3jLBHA_r3Q0D0YYAA/exec";
 
-        actualizarIndicador();
-    </script>
+    // Leer el contador global y mostrarlo en la burbuja "Visitas al carrito"
+    async function actualizarIndicador() {
+        try {
+            const res = await fetch(API_URL + "?action=get");
+            const data = await res.json();
+            const count = (data && typeof data.count === "number") ? data.count : 0;
+            document.getElementById("cart-count").textContent = count;
+        } catch (error) {
+            console.error("Error obteniendo contador:", error);
+            document.getElementById("cart-count").textContent = "0";
+        }
+    }
+
+    // Función que usa el botón del carrito en la landing
+    function irAlCarrito() {
+        window.location.href = "carrito.html";
+    }
+
+    // Cuando se carga la página, actualizamos el contador
+    document.addEventListener("DOMContentLoaded", actualizarIndicador);
+</script>
+
 
 
 </body>
 </html>
+
 
 
