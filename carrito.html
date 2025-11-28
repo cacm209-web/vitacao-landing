@@ -191,50 +191,68 @@
         <a href="VITACAO.html" class="back-link">← Volver a la página principal</a>
     </main>
 
-    <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbw-P4KLy38w4dMyU1rDj9heAvrMa1c3MOqZZEvhXzqSJ5y0ZJybULPsnVXyLEEWMcghtA/exec";
-        const UNIT_PRICE = 15000;
-    
-        function formatCOP(value) {
-            return value.toLocaleString('es-CO', {
-                style: 'currency',
-                currency: 'COP',
-                maximumFractionDigits: 0
-            });
-        }
+<script>
+    // URL de tu Web App de Apps Script
+    const API_URL = "https://script.google.com/macros/s/AKfycbwD9kAZM2-TvNrNu2p4BAYl2q73kWW0uU-T1Dh1Ox3EHk12V_Uhp3jLBHA_r3Q0D0YYAA/exec";
+    const UNIT_PRICE = 15000; // precio unitario en pesos
 
+    function formatCOP(value) {
+        return value.toLocaleString("es-CO", {
+            style: "currency",
+            currency: "COP",
+            maximumFractionDigits: 0
+        });
+    }
+
+    // Cada vez que alguien entra al carrito: suma 1 en Google Sheets
     async function incrementarVisitaCarrito() {
         try {
-            const res = await fetch(API_URL + '?action=increment');
+            const res = await fetch(API_URL + "?action=increment");
             const data = await res.json();
-            document.getElementById('cart-count').textContent = data.count;
+            const count = (data && typeof data.count === "number") ? data.count : 0;
+            document.getElementById("cart-count").textContent = count;
         } catch (error) {
-            console.error(error);
-            document.getElementById('cart-count').textContent = '0';
+            console.error("Error incrementando contador:", error);
+            document.getElementById("cart-count").textContent = "0";
         }
     }
 
+    // Actualiza el total según la cantidad
     function actualizarTotal() {
-        const cantidad = Math.max(1, parseInt(document.getElementById('cantidad').value || 1));
-        document.getElementById('cantidad').value = cantidad;
-        document.getElementById('unit-price').textContent = formatCOP(UNIT_PRICE);
-        document.getElementById('total-price').textContent = formatCOP(cantidad * UNIT_PRICE);
+        const cantidadInput = document.getElementById("cantidad");
+        let cantidad = parseInt(cantidadInput.value, 10);
+
+        if (isNaN(cantidad) || cantidad < 1) {
+            cantidad = 1;
+            cantidadInput.value = 1;
+        }
+
+        const total = cantidad * UNIT_PRICE;
+
+        document.getElementById("unit-price").textContent = formatCOP(UNIT_PRICE);
+        document.getElementById("total-price").textContent = formatCOP(total);
     }
 
     function finalizarCompra() {
-        document.getElementById('mensaje-final').textContent = 
-            "Gracias por estar interesado en nuestro producto, cuando estemos disponibles, te lo notificaremos!!";
+        const mensaje = document.getElementById("mensaje-final");
+        mensaje.textContent = "Gracias por estar interesado en nuestro producto, cuando estemos disponibles, te lo notificaremos!!";
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    // Al cargar la página de carrito:
+    // 1) suma 1 visita
+    // 2) calcula el total
+    // 3) escucha cambios en la cantidad
+    document.addEventListener("DOMContentLoaded", () => {
         incrementarVisitaCarrito();
         actualizarTotal();
-        document.getElementById('cantidad').addEventListener('input', actualizarTotal);
+        document.getElementById("cantidad").addEventListener("input", actualizarTotal);
     });
 </script>
 
 
+
 </body>
 </html>
+
 
 
