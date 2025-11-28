@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito VITACAO+</title>
+
+    <style>
+        :root {
+            --bg-page: #f5ece1;
+            --accent: #0f3c7a;      /* azul rey oscuro */
+            --accent-soft: #e2ecff;
+            --text-main: #3b2a1a;
+            --card-bg: #ffffff;
+            --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: radial-gradient(circle at top left, #fdf8f3, var(--bg-page));
+            color: var(--text-main);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 16px 60px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        p.intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 24px;
+            color: #5a4633;
+        }
+
+        .carrito-box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px 20px 26px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .carrito-box p {
+            margin: 6px 0;
+            font-size: 0.98rem;
+        }
+
+        .fila {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .fila label {
+            font-size: 0.98rem;
+            font-weight: 600;
+        }
+
+        .cantidad-input {
+            width: 80px;
+            padding: 4px 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 0.95rem;
+        }
+
+        .precio {
+            font-weight: 600;
+        }
+
+        .finalizar-btn {
+            margin-top: 18px;
+            padding: 10px 24px;
+            border-radius: 999px;
+            border: none;
+            background: #0f4fa8;
+            color: white;
+            font-size: 0.98rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(15, 79, 168, 0.35);
+        }
+
+        .finalizar-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        #mensaje-final {
+            margin-top: 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4b392a;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .product-img-carrito {
+            display: block;
+            width: 260px;
+            max-width: 90%;
+            margin: 20px auto 20px;
+            border-radius: 18px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+            background: #eee;
+        }
+
+        /* INDICADOR FIJO VISITAS CARRITO */
+        #cart-indicator {
+            position: fixed;
+            top: 10px;
+            right: 16px;
+            background: rgba(36, 23, 15, 0.9);
+            color: white;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(4px);
+        }
+
+        #cart-indicator span {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Indicador con número de personas que han entrado al carrito -->
+    <div id="cart-indicator">
+        🛒 Visitas al carrito: <span id="cart-count">0</span>
+    </div>
+
+    <main>
+        <h1>Carrito de VITACAO+</h1>
+        <p class="intro">
+            Aquí podrás finalizar el proceso de compra de prueba.
+        </p>      
+
+        <img src="vitacao2.jpeg" alt="Vista adicional de VITACAO+" class="product-img-carrito">
+
+        <div class="carrito-box">
+            <p><strong>Producto:</strong> VITACAO+ – Postre cremoso funcional</p>
+
+            <div class="fila">
+                <label for="cantidad">Cantidad:</label>
+                <input 
+                    type="number" 
+                    id="cantidad" 
+                    class="cantidad-input" 
+                    min="1" 
+                    step="1" 
+                    value="1"
+                >
+            </div>
+
+            <p class="precio"><strong>Precio unitario:</strong> <span id="unit-price">$15.000</span></p>
+            <p class="precio"><strong>Precio total:</strong> <span id="total-price">$15.000</span></p>
+
+            <button class="finalizar-btn" onclick="finalizarCompra();">
+                Finalizar compra
+            </button>
+
+            <p id="mensaje-final"></p>
+        </div>
+
+        <a href="VITACAO.html" class="back-link">← Volver a la página principal</a>
+    </main>
+
+    <script>
+        const STORAGE_KEY_VISITS = 'vitacao_cart_visits';
+        const UNIT_PRICE = 15000; // precio en pesos
+
+        function formatCOP(value) {
+            // Formato tipo moneda colombiana sin decimales
+            return value.toLocaleString('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                maximumFractionDigits: 0
+            });
+        }
+
+        function incrementarVisitaCarrito() {
+            const saved = localStorage.getItem(STORAGE_KEY_VISITS);
+            let count = saved ? parseInt(saved, 10) || 0 : 0;
+            count++;
+            localStorage.setItem(STORAGE_KEY_VISITS, count);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        function actualizarTotal() {
+            const cantidadInput = document.getElementById('cantidad');
+            let cantidad = parseInt(cantidadInput.value, 10);
+
+            // Evitar valores menores a 1 o NaN
+            if (isNaN(cantidad) || cantidad < 1) {
+                cantidad = 1;
+                cantidadInput.value = 1;
+            }
+
+            const total = cantidad * UNIT_PRICE;
+
+            document.getElementById('unit-price').textContent = formatCOP(UNIT_PRICE);
+            document.getElementById('total-price').textContent = formatCOP(total);
+        }
+
+        function finalizarCompra() {
+            const mensaje = document.getElementById('mensaje-final');
+            mensaje.textContent = "Gracias por estar interesado en nuestro producto, cuando estemos disponibles, te lo notificaremos!!";
+        }
+
+        // Al cargar la página:
+        // 1) Incrementar el contador de visitas al carrito
+        // 2) Actualizar el total según la cantidad inicial
+        incrementarVisitaCarrito();
+        actualizarTotal();
+
+        // Escuchar cambios en la cantidad
+        document.getElementById('cantidad').addEventListener('input', actualizarTotal);
+    </script>
+
+</body>
+</html>
