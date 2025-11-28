@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITACAO+</title>
+
+    <style>
+        :root {
+            --bg-page: #f5ece1;
+            --accent: #0f3c7a;          /* azul rey oscuro */
+            --accent-soft: #e2ecff;     /* azul claro suave */
+            --text-main: #3b2a1a;
+            --card-bg: #ffffff;
+            --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: radial-gradient(circle at top left, #fdf8f3, var(--bg-page));
+            color: var(--text-main);
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 16px 60px;
+        }
+
+        section {
+            padding: 40px 20px;
+        }
+
+        /* ENCABEZADO / HERO */
+        .hero {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin: 16px 0 6px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #5a4633;
+            margin-bottom: 14px;
+        }
+
+        .hero-text {
+            font-size: 1.05rem;
+            max-width: 640px;
+            margin: 0 auto;
+            color: #5f4c3a;
+        }
+
+        .product-img {
+            width: 320px;
+            max-width: 90%;
+            border-radius: 20px;
+            margin-top: 26px;
+            box-shadow: var(--shadow-soft);
+            background: #eee;
+        }
+
+        /* TITULOS DE SECCIÓN */
+        h2.section-title {
+            font-size: 1.5rem;
+            margin: 0 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .section-subline {
+            width: 70px;
+            height: 4px;
+            border-radius: 999px;
+            margin: 6px auto 18px;
+            background: linear-gradient(90deg, var(--accent), #c98236);
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* BANNERS */
+        .banner {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 26px 22px 26px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 60, 122, 0.12), rgba(201, 130, 54, 0.05));
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .banner-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .banner-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .banner-tag {
+            width: 7px;
+            height: 32px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--accent), #c98236);
+        }
+
+        .banner-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .banner p {
+            margin: 6px 0 10px;
+            color: #4b392a;
+        }
+
+        .banner ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 8px 0;
+        }
+
+        .banner ul li {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 6px;
+            font-size: 0.98rem;
+        }
+
+        .banner ul li::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            top: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* CTA + BOTÓN CARRITO */
+        .cta-section {
+            text-align: center;
+        }
+
+        .cta-section p {
+            max-width: 640px;
+            margin: 0 auto;
+            color: #5a4633;
+        }
+
+        .carrito-btn {
+            background: linear-gradient(135deg, var(--accent), #c98236);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 24px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 8px 18px rgba(15, 60, 122, 0.35);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .carrito-btn span {
+            font-size: 1.3rem;
+        }
+
+        .carrito-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px rgba(15, 60, 122, 0.45);
+        }
+
+        .carrito-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 12px rgba(15, 60, 122, 0.3);
+        }
+
+        /* INDICADOR FIJO VISITAS CARRITO */
+        #cart-indicator {
+            position: fixed;
+            top: 10px;
+            right: 16px;
+            background: rgba(36, 23, 15, 0.9);
+            color: white;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(4px);
+        }
+
+        #cart-indicator span {
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            section {
+                padding: 32px 16px;
+            }
+            .banner-inner {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Indicador fijo con el conteo de visitas al carrito -->
+    <div id="cart-indicator">
+        🛒 Visitas al carrito: <span id="cart-count">0</span>
+    </div>
+
+
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="badge">Postre funcional para adultos 55+</div>
+            <h1 class="hero-title">VITACAO+</h1>
+            <p class="hero-subtitle">Postre cremoso funcional a base de leche de búfala y cacao</p>
+            <p class="hero-text">
+                Nutrición que se disfruta, naturalmente. Diseñado para brindar sabor, bienestar y un completo aporte nutricional 
+                a personas adultas que cuidan su salud muscular, ósea y general.
+            </p>
+            <img src="vitacao.jpg" alt="Producto VITACAO+" class="product-img">
+        </section>
+
+        <!-- ¿QUÉ ES? -->
+        <section>
+            <h2 class="section-title">¿Qué es?</h2>
+            <div class="section-subline"></div>
+
+            <article class="banner" id="que-es">
+                <div class="banner-inner">
+                    <div class="banner-header">
+                        <div class="banner-tag"></div>
+                        <div class="banner-title">VITACAO+</div>
+                    </div>
+
+                    <p>🌟 <strong>VITACAO+</strong> – Postre cremoso funcional a base de leche de búfala y cacao.</p>
+                    <p>🍫 Nutrición que se disfruta, naturalmente.</p>
+                    <p>
+                        VITACAO+ es un postre cremoso funcional diseñado para brindar bienestar, sabor y nutrición 
+                        avanzada a adultos mayores de 55+ que buscan mantener su salud muscular, ósea y general con un 
+                        alimento suave, práctico y delicioso.
+                    </p>
+                </div>
+            </article>
+        </section>
+
+        <!-- ¿POR QUÉ VITACAO+? -->
+        <section>
+            <h2 class="section-title">¿Por qué VITACAO+?</h2>
+            <div class="section-subline"></div>
+
+            <article class="banner" id="porque">
+                <div class="banner-inner">
+                    <div class="banner-header">
+                        <div class="banner-tag"></div>
+                        <div class="banner-title">Leche de búfala + cacao funcional</div>
+                    </div>
+
+                    <h3>✔ Elaborado con leche de búfala</h3>
+                    <ul>
+                        <li>Leche naturalmente más rica en proteínas, calcio y sólidos totales.</li>
+                        <li>Más proteína por porción.</li>
+                        <li>Calcio de alta biodisponibilidad.</li>
+                        <li>Mejor digestibilidad.</li>
+                        <li>Textura suave y agradable para todas las edades.</li>
+                    </ul>
+
+                    <h3>✔ Enriquecido con cacao funcional</h3>
+                    <ul>
+                        <li>El cacao aporta flavonoides bioactivos que contribuyen a:</li>
+                        <li>Reducir el estrés oxidativo.</li>
+                        <li>Favorecer el bienestar cardiovascular.</li>
+                        <li>Apoyar la función cognitiva.</li>
+                        <li>Brindar un sabor natural y familiar.</li>
+                    </ul>
+
+                    <h3>💪 Beneficios funcionales de VITACAO+</h3>
+                    <ul>
+                        <li>Aporte natural de proteína para apoyar masa muscular.</li>
+                        <li>Calcio altamente biodisponible para fortalecer huesos.</li>
+                        <li>Flavonoides de cacao con acción antioxidante.</li>
+                        <li>Digestión suave, ideal para personas con limitaciones bucales o digestivas.</li>
+                        <li>Textura tipo postre, cremosa, homogénea y fácil de consumir.</li>
+                        <li>Easy-peel, envase práctico y de apertura sencilla.</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+
+        <!-- IDEAL PARA -->
+        <section>
+            <h2 class="section-title">Ideal para…</h2>
+            <div class="section-subline"></div>
+
+            <article class="banner" id="ideal">
+                <div class="banner-inner">
+                    <div class="banner-header">
+                        <div class="banner-tag"></div>
+                        <div class="banner-title">Público objetivo</div>
+                    </div>
+
+                    <ul>
+                        <li>✔ Adultos mayores que desean fortalecer salud ósea y muscular.</li>
+                        <li>✔ Personas con poco apetito o dificultades de masticación.</li>
+                        <li>✔ Quienes buscan snacks densos en nutrientes y de consumo rápido.</li>
+                        <li>✔ Familias que quieren ofrecer una opción natural y funcional.</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+
+        <!-- CIENCIA + SABOR -->
+        <section>
+            <h2 class="section-title">Ciencia + Sabor</h2>
+            <div class="section-subline"></div>
+
+            <article class="banner" id="ciencia">
+                <div class="banner-inner">
+                    <div class="banner-header">
+                        <div class="banner-tag"></div>
+                        <div class="banner-title">Food Design Thinking</div>
+                    </div>
+
+                    <p>
+                        VITACAO+ nace de un proceso basado en <strong>Food Design Thinking</strong>, combinando necesidades 
+                        reales del adulto mayor con ingredientes de alta calidad y respaldo científico.
+                    </p>
+                </div>
+            </article>
+        </section>
+
+        <!-- CTA + BOTÓN QUE LLEVA AL CARRITO -->
+        <section class="cta-section">
+            <h2 class="section-title">Simula tu compra</h2>
+            <div class="section-subline"></div>
+            <p>
+                Haz clic en el carrito para simular tu interés y completar un proceso de compra de prueba. 
+                No es una transacción real, sino una experiencia de concepto de producto.
+            </p>
+
+            <button class="carrito-btn" onclick="irAlCarrito();">
+                <span>🛒</span> Ir al carrito de VITACAO+
+            </button>
+        </section>
+    </main>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbzMgaXENuz3u7tovKGu9uSuLYBGD3eaFZ89Q8oq2KvCfNFNKJLmM4vTqzLqedGDkPcBGw/exec";
+
+        async function actualizarIndicador() {
+            try {
+                const res = await fetch(API_URL + "?action=get");
+                const data = await res.json();
+                const count = (data && typeof data.count === "number") ? data.count : 0;
+                document.getElementById("cart-count").textContent = count;
+            } catch (error) {
+                console.error("Error obteniendo contador:", error);
+                document.getElementById("cart-count").textContent = "0";
+            }
+        }
+
+        function irAlCarrito() {
+            window.location.href = "carrito.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", actualizarIndicador);
+    </script>
+
+
+
+
+</body>
+</html>
