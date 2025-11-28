@@ -407,20 +407,23 @@
     </main>
 
     <script>
-        const STORAGE_KEY_VISITS = 'vitacao_cart_visits';
-
-        function actualizarIndicador() {
-            const saved = localStorage.getItem(STORAGE_KEY_VISITS);
-            const count = saved ? parseInt(saved, 10) || 0 : 0;
-            document.getElementById('cart-count').textContent = count;
-        }
-
-        function irAlCarrito() {
-            window.location.href = 'carrito.html';
+        const API_URL = "https://script.google.com/macros/s/AKfycbzMgaXENuz3u7tovKGu9uSuLYBGD3eaFZ89Q8oq2KvCfNFNKJLmM4vTqzLqedGDkPcBGw/exec";
+    
+        async function actualizarIndicador() {
+            try {
+                const res = await fetch(API_URL + '?action=get');
+                const data = await res.json();
+                document.getElementById('cart-count').textContent = data.count;
+            } catch (error) {
+                console.error(error);
+                document.getElementById('cart-count').textContent = '0';
+            }
         }
 
         actualizarIndicador();
     </script>
 
+
 </body>
 </html>
+
